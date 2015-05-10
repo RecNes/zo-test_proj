@@ -1,33 +1,18 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="tr">
 <head>
-    <title>WebSockets Hello World</title>
-    <meta charset="utf-8"/>
-    <style type="text/css">
-        body {
-            text-align: center;
-            min-width: 500px;
-        }
-    </style>
-    <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
-    <script type="text/javascript" src="socket.js"></script>
+    <meta charset="UTF-8">
+    <meta name="author" content="Sencer HAMARAT">
+    <title>WebSocket İstemcisi</title>
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <script src="script.js" type="text/javascript"></script>
 </head>
-
-<body>
-<h1>Test Project on WebSockets</h1>
-
-<div>
-    <h2 id="message_box"></h2>
+<body lang="tr">
+Diğer istemcilere mesaj göndermek için aşağıdaki kutucuğa mesajınızı yazınız:
+<div id="send">
+    <input type="text" id="data" size="100"/><br>
+    <input type="button" id="sendtext" value="send text"/>
 </div>
-<div>
-    <label for="host">host:</label>
-    <input type="text" id="host" value=""/>
-    <label for="port">port:</label>
-    <input type="text" id="port" value=""/>
-    <label for="uri">uri:</label>
-    <input type="text" id="uri" value=""/>
-    <input type="submit" id="open" value="open"/>
-</div>
+<div id="output"></div>
 </body>
 </html>
- 

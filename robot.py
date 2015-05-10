@@ -1,47 +1,40 @@
 # -*- coding: utf-8 -*-
-__author__ = 'sencer'
+import time
+
+__author__ = 'Sencer HAMARAT'
 
 
 import websocket
 import thread
-import time
-import sys
 
 
-def on_message(ws, message):
+def onmessage(ws, message):
     print message
 
 
-def on_error(ws, error):
+def onerror(ws, error):
     print error
 
 
-def on_close(ws):
-    print "### closed ###"
+def onclose(ws):
+    print "Bağlantı kapatıldı."
 
 
-def on_open(ws, count):
+def onopen(ws, count):
     def run(*args):
-        while True:
-            # send the message, then wait
-            # so thread doesnt exit and socket
-            # isnt closed
-            ws.send("Hello, this is Nr: {}".format(count))
-
-        time.sleep(5)
-        ws.close()
-        print("Thread terminating...")
-        sys.exit()
-
+        ws.send("Berhaba ben {}. istemci".format(count))
     thread.start_new_thread(run, ())
+    time.sleep(1)
 
 if __name__ == "__main__":
-    websocket.enableTrace(True)
-    host = "ws://localhost:8888/ws"
-    ws = websocket.WebSocketApp(host,
-                                on_message=on_message,
-                                on_error=on_error,
-                                on_close=on_close)
-    ws.on_open = on_open
-    ws.run_forever()
-
+    i = 0
+    while i < 10000:
+        i += 1
+        websocket.enableTrace(False)
+        host = "ws://localhost:9090/ws"
+        ws = websocket.WebSocketApp(host,
+                                    on_message=onmessage,
+                                    on_error=onerror,
+                                    on_close=onclose)
+        ws.on_open = onopen
+        ws.run_forever()
