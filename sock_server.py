@@ -50,13 +50,14 @@ class WSHandler(tornado.websocket.WebSocketHandler):
         """
         msj = u' '.join((message,)).encode('utf-8').strip()
         for con in self.connections:
-            con.write_message('Websitesndeki kullanıcı diyor ki: {}'.format(msj))
+            con.write_message('Websitesindeki kullanıcı diyor ki: {}'.format(msj))
 
     def on_close(self):
         """
         Sunucu çıktılarında bağlantının kapatıldığını gösterir.
         :return:
         """
+        self.connections.remove(self)
         print 'connection closed...'
 
 
