@@ -6,6 +6,7 @@ __author__ = 'Sencer HAMARAT'
 
 import websocket
 import thread
+import sys
 
 
 def onmessage(ws, message):
@@ -51,7 +52,16 @@ def onopen(ws, count):
 
 if __name__ == "__main__":
     websocket.enableTrace(False)
-    host = "ws://localhost:9090/ws"
+    args = sys.argv
+    if len(args) > 1:
+        address = args[1]
+    else:
+        address = "localhost"
+        print "Ön tanımlı adres < localhost > olarak kullanılır."
+        print "Adres belirtmek için < python robotto.py 192.168.1.x > şeklinde yazınız."
+        print "Sunucunun IP adresini görmek için < python show_ip.py > kullanabilirsiniz."
+
+    host = "ws://{}:9090/ws".format(address)
     ws = websocket.WebSocketApp(host,
                                 on_message=onmessage,
                                 on_error=onerror,
