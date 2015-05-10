@@ -1,0 +1,14 @@
+backports.ssl-match-hostname==3.4.0.2
+certifi==2015.4.28
+futures==3.0.1
+linecache2==1.0.0
+Monotime==1.0
+pycares==0.7.0
+pycurl==7.19.5.1
+six==1.9.0
+tornado==4.1
+traceback2==1.4.0
+Twisted==15.1.0
+unittest2==1.0.1
+websocket-client==0.30.0
+zope.interface==4.1.2
