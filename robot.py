@@ -58,7 +58,7 @@ class MrRobotto(Process):
                           connect_timeout=480, request_timeout=1000)
         response = http_client.fetch(url)   # yes, we're doing a synchronous (blocking) call.
         if response.error:
-            print "response = ", response
+            print("response = ", response)
         else:
             self.client_id = self.__get_ftc_id(response.headers)
             if not self.client_id:
