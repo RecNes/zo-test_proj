@@ -11,42 +11,42 @@ import sys
 
 def onmessage(ws, message):
     """
-    Sunucudan gelen mesajları konsola basar
+    Print server messages to console
     :param ws:
     :param message:
     :return:
     """
-    print message
+    print(message)
 
 
 def onerror(ws, error):
     """
-    Socket bağlantısı hatasında konsola bilgi basar
+    Print information on socket connection error
     :param ws:
     :param error:
     :return:
     """
-    print error
+    print(error)
 
 
 def onclose(ws):
     """
-    Socket bağlantısı kesildiğinde konsola bilgi basar
+    Print information on socket connection closed
     :param ws:
     :return:
     """
-    print "Bağlantı kapatıldı."
+    print("Connection Closed.")
 
 
 def onopen(ws, count):
     """
-    Yeni bir thread oluşturup socket bağlantısı açar ve sunucuya mesaj gönderir
+    Create new socket connetion thread and send message to server
     :param ws:
     :param count:
     :return:
     """
     def run(*args):
-        ws.send("Berhaba ben {}. istemci".format(count))
+        ws.send("Hello, this is {}. client".format(count))
     thread.start_new_thread(run, ())
 
 
@@ -57,9 +57,9 @@ if __name__ == "__main__":
         address = args[1]
     else:
         address = "localhost"
-        print "Ön tanımlı adres < localhost > olarak kullanılır."
-        print "Adres belirtmek için < python robotto.py 192.168.1.x > şeklinde yazınız."
-        print "Sunucunun IP adresini görmek için < python show_ip.py > kullanabilirsiniz."
+        print("< localhost > is the default address.")
+        print("To set address manually run as < python robotto.py 192.168.1.x >.")
+        print("To display current address run < python show_ip.py >.")
 
     host = "ws://{}:9090/ws".format(address)
     ws = websocket.WebSocketApp(host,
