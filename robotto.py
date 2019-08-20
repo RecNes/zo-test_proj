@@ -5,7 +5,7 @@ __author__ = 'Sencer HAMARAT'
 
 
 import websocket
-import thread
+from threading import Thread
 import sys
 
 
@@ -47,7 +47,7 @@ def onopen(ws, count):
     """
     def run(*args):
         ws.send("Hello, this is {}. client".format(count))
-    thread.start_new_thread(run, ())
+    Thread.start_new_thread(run, ())
 
 
 if __name__ == "__main__":
