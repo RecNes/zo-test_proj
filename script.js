@@ -5,21 +5,21 @@
 jQuery(function ($) {
 
     if (!("WebSocket" in window)) {
-        alert("Tarayıcınız Web Socket teknolojisini desteklememektedir.");
+        alert("Your browser does not supporting Web Socket technology.");
     } else {
         upstart();
     }
 
     function upstart() {
-        var host = "ws://localhost:9090/ws";  // websocket adresi tanımı
-        var socket = new WebSocket(host);  // WebSocket oluştur ve değişkene ata
+        var host = "ws://localhost:9090/ws";  // websocket address definition
+        var socket = new WebSocket(host);  // Create a WebSocket
         var $txt = $("#data");
         var $btnSend = $("#sendtext");
 
-        $txt.focus();  // İmleçi Input field'a odakla
+        $txt.focus();  // Focus cursot to input
 
 
-        // Düğmeye tıklandığında ya da Enter tuşuna basıldığında mesajı gönder.
+        // Send message if Return pressed or button clicked.
         $btnSend.on('click', function () {
             var text = $txt.val();
             if (text == "") {
@@ -37,20 +37,19 @@ jQuery(function ($) {
 
         if (socket) {
             socket.onopen = function () {
-                showServerResponse("Bağlantı kuruldu");
+                showServerResponse("Connection Established.");
             };
             socket.onmessage = function (msg) {
                 showServerResponse(msg.data);
             };
             socket.onclose = function () {
-                //alert("connection closed....");
-                showServerResponse("Bağlantı Kesildi.");
+                showServerResponse("Connection Closed.");
             }
         } else {
-            console.log("Geçersiz Socket");
+            console.log("Invalid Socket");
         }
 
-        function showServerResponse(txt) {  // Mesajları HTML'e basmak için kullanılan method
+        function showServerResponse(txt) {  // Put messages to HTML dynamically
             var p = document.createElement('p');
             p.innerHTML = txt;
             document.getElementById('output').appendChild(p);
