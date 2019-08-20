@@ -10,7 +10,7 @@ __author__ = 'Sencer HAMARAT'
 
 class MainHandler(tornado.web.RequestHandler):
     """
-    İstek yapıldığında index.html'i istemciye gönderir.
+    Sends index.html to client when requested.
     """
     def get(self):
         loader = tornado.template.Loader(".")
@@ -18,12 +18,11 @@ class MainHandler(tornado.web.RequestHandler):
 
 
 class WSHandler(tornado.websocket.WebSocketHandler):
-    connections = set()  # Clientların açtığı ger bir bağlantının listesini tutacak liste.
+    connections = set()  # List of client connections.
 
     def check_origin(self, origin):
         """
-        Cross site kontrolünü devre dışı bırakır. Ön tanımlı olarak güvenlik sebebiyle kontrol vardır.
-        Script'in her şekilde çalışması için bu kısmı atlattım.
+        To make JavaScript would work cross site check disabled.
         :param origin:
         :return:
         """
@@ -31,43 +30,43 @@ class WSHandler(tornado.websocket.WebSocketHandler):
 
     def open(self):
         """
-        Her istemci isteğine bir bağlantı açar ve bağlantının kabul edildiğine dair istemciye mesaj gönderir
-        Ve tüm clientları yeni istemcinin numarası iel birlikte sunucuya dahil olduğundan haberdar eder.
+        Open a connection ony each request and send response message to client. 
+        Warns every client about new client with it's client number.
         :return:
         """
         
         self.connections.add(self)
-        self.write_message("Sunucu: Bağlantı kuruldu.")
+        self.write_message("Server: Connection established.")
         for con in self.connections:
-            con.write_message('{}. istemci bağlandı'.format(str(len(self.connections))))
-        print 'Yeni bağlantı kuruldu...'
+            con.write_message('{}. client connected'.format(str(len(self.connections))))
+        print('New connection established...')
 
     def on_message(self, message):
         """
-        Herhangi bir istemciden gelen mesajları tüm diğer istemcilere gönderir.
+        Transmit messages to all clients received from any client. 
         :param message:
         :return:
         """
         msj = u' '.join((message,)).encode('utf-8').strip()
         for con in self.connections:
-            con.write_message('Websitesindeki kullanıcı diyor ki: {}'.format(msj))
+            con.write_message('User saying: {}'.format(msj))
 
     def on_close(self):
         """
-        Sunucu çıktılarında bağlantının kapatıldığını gösterir.
+        Displaying closed connections
         :return:
         """
         self.connections.remove(self)
-        print 'connection closed...'
+        print('Connection closed...')
 
 
-# Tornado sunucusunun URL yapılandırması:
+# Tornado server URL configuration:
 application = tornado.web.Application([
     (r'/ws', WSHandler),
     (r'/', MainHandler),
-    (r"/(.*)", tornado.web.StaticFileHandler, {"path": "./"}),  # static dosya sağlayıcı.
+    (r"/(.*)", tornado.web.StaticFileHandler, {"path": "./"}),  # static file supplier.
 ])
 
 if __name__ == "__main__":
-    application.listen(9090)  # Tornado sunucusunu uygulama olarak 9090 portunu dinlemek üzere çalıştırır
-    tornado.ioloop.IOLoop.instance().start()  # Sunucunun devamlı olarka çalışmasını sağlar
+    application.listen(9090)  # Tornado server port setting.
+    tornado.ioloop.IOLoop.instance().start()  # Keep server running.
