@@ -11,7 +11,7 @@ incremental==17.5.0
 linecache2==1.0.0
 Monotime==1.0
 pkg-resources==0.0.0
-pycares==3.0.0
+pycares==4.2.0
 pycparser==2.19
 pycurl==7.43.0.3
 PyHamcrest==1.9.0
